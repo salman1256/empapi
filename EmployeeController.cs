@@ -34,5 +34,28 @@ namespace EmployeeApi.Controllers
             employees.Add(emp);
             return CreatedAtAction(nameof(GetById), new { id = emp.Id }, emp);
         }
+        // PUT: api/employees/{id}
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, Employee emp)
+        {
+            var existing = employees.FirstOrDefault(e=>e.Id==id);
+            if (existing == null) return NotFound();
+            existing.Name = emp.Name;
+            existing.Department = emp.Department;
+            existing.Salary = emp.Salary;
+           
+            return NoContent();
+        }
+
+        // DELETE: api/employees/{id}
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var existing = employees.FirstOrDefault(e => e.Id == id);
+            if (existing == null) return NotFound();
+               employees.Remove(existing); 
+            return NoContent();
+        }
     }
 }
+
